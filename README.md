@@ -120,4 +120,36 @@ Smaller, sharper ideas that could each stand alone:
 
 ---
 
+## Design notes
+
+### How is any of this enforced?
+
+Every knowledge system in history has died the same death: it depended on human discipline, and humans won't do documentation chores. Mycelium's enforcement principle is therefore: **no behavior may depend on a human remembering to do anything.**
+
+1. **Capture at chokepoints, as a byproduct.** Software work already flows through a handful of unavoidable gates — the merge, the PR, the incident ticket, the CI pipeline, and increasingly the AI coding session itself. Mycelium lives *inside* those gates. The biggest unlock is that reasoning used to live only in someone's head (uncapturable); with AI-assisted development it lives in the session transcript (capturable). The agent files the Ledger entry as part of finishing the task — zero human keystrokes. For human-authored changes, the system *drafts* the why from the diff, the ticket, and the PR discussion, and the human only confirms or corrects it during the review they were already doing. People won't compose; they will happily correct.
+
+2. **Mechanical gates where it matters, silence where it doesn't.** Antibody screening runs in CI — you can no more "forget" it than forget to run tests; the status check is the one enforcement mechanism the industry has proven works. But blanket gates breed garbage compliance (the way commit-message rules produce "fix"), so gating is risk-tiered by the Attention Compiler: hot paths require a human-signed why; cold paths get silent automatic capture and no ceremony at all.
+
+3. **Consumption is the real enforcement.** Systems survive when the person doing the work gets value the same day. The Ledger answers *your own* "why is this here?" an hour after you need it; a dense Ledger visibly makes *your* AI agent smarter on *your* repo; an antibody saves *you* from re-shipping an old bug. Once the tool pays you daily, compliance stops being a policy and becomes self-interest — people defend the system instead of gaming it.
+
+4. **Quality is audited, not assumed.** A ledger full of auto-generated boilerplate is worse than none. The Dream Cycle audits entries (does this actually explain the diff? does it now contradict the code?), unverified entries decay, and entries are calibration-scored by use: one that answered a question and helped gets reinforced; one that misled gets flagged.
+
+5. **Agents are the easy half.** A growing share of commits are authored by AI agents, and agents don't need convincing — they need configuring. Mycelium's policies are enforced on the agent workforce by construction; humans get the softer confirm-not-correct path.
+
+### What about brownfield projects?
+
+The cold-start objection: a 12-year-old codebase, original authors gone, the whys already evaporated. Four answers, in order of leverage:
+
+1. **Archaeology, not paperwork.** A brownfield repo isn't silent — it's a fossil record: tens of thousands of commit messages, PR threads, tickets, postmortems, chat archives, comments, test names. An offline agent fleet reads all of it (a job no org would ever pay humans to do, and agents do overnight) and reconstructs *provisional* Ledger entries — explicitly marked as inferred, with confidence levels and citations: "this 70-second timeout appeared in commit `abc123`, the same week as incident #442; the PR thread mentions vendor rate limits." Inferred entries are hypotheses to confirm, never truths.
+
+2. **Excavate on demand.** Don't boil the ocean on day one. Deep excavation of a region is triggered the first time someone actually touches or asks about it — cost tracks value, and every answer is cached in the Ledger forever. Meanwhile churn concentrates: the ~20% of a codebase under active change accumulates dense, fully-captured coverage within months, so a brownfield repo converges to greenfield along exactly the paths that matter.
+
+3. **Armor what can't be explained.** Where the why is unrecoverable, pin down the *what*: auto-generated characterization tests snapshot the current behavior of the murkiest regions. We can't recover why the fence is there, but we can electrify it — and when someone eventually trips it, the resulting "is this behavior load-bearing?" conversation becomes the Ledger entry. Lost knowledge gets regenerated at precisely the moments it's needed.
+
+4. **Interview the elders — urgently.** The densest knowledge store in a brownfield org is the two engineers who've been there nine years. An agent conducts targeted interviews — not "please write docs" but "I found this retry logic from 2019; the commit says 'fix for the thing'; was this the Cassandra migration?" Thirty minutes of confirm/deny yields entries no archaeology could reach, prioritized by which hot regions only they understand. And when anyone gives notice, their final weeks include guided extraction of the knowledge only they hold.
+
+One more asymmetry worth naming: the Immune System needs no cooperation from the codebase at all — it feeds on incident history, which is usually a brownfield org's best-preserved record. Old scar tissue converts straight into antibodies, which means the messiest, oldest orgs get the immune payoff *first*.
+
+---
+
 *Written by Claude (Anthropic) in response to: "If you were given an open hand to build something that can improve developer productivity with AI, what would you build?"*
